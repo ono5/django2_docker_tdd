@@ -1,0 +1,100 @@
+# 開発環境やビルドを行うためなら、version 2.X を使う
+# サービスのヘルスチェックなどのユーティリティを含むため
+# Docker Swarm を使う場合は、version 3.X を使うこと
+version: '2.4'
+
+# collectstatic で集めた静的なファイルを保存する場所
+# defaultは、root ユーザーで作成されるので、Dockerfile でユーザー変更すること
+volumes:
+  public:
+    driver: local
+
+# Docker Container 上で動くサービスを指定する
+services:
+  # docker-compose build test
+  # docker-compose run test
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # FROM alpine as test
+      target: test
+  release:
+    # docker-compose up release
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # settings.py のモジュールを指定
+      DJANGO_SETTINGS_MODULE: superlists.settings_release
+      DB_HOST: db # assign "db" service
+      DB_NAME: app
+      DB_USER: postgres
+      DB_PASS: supersecretpassword
+  app:
+    extends:
+      service: release
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - public:/public
+      - ./src:/app
+    ports:
+      - 8000:8000
+    command:
+      - uwsgi
+      - --http=0.0.0.0:8000
+      - --module=superlists.wsgi
+      - --master
+      # public volume から静的ファイルをチェック
+      - --check-static=/public
+    links:
+      - hub
+  # docker-compose up migrate
+  migrate:
+    extends:
+      service: release
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+      - python3
+      - manage.py
+      - migrate
+      - --no-input
+  db:
+    image: postgres:10-alpine
+    # https://github.com/peter-evans/docker-compose-healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+
+  adm:
+    image: dpage/pgadmin4
+    volumes:
+    - ./pgadmin:/var/lib/pgadmin/storage
+    ports:
+    - "80:80"
+    - "443:443"
+    environment:
+      # これでログインする
+      PGADMIN_DEFAULT_EMAIL: "qes"
+      PGADMIN_DEFAULT_PASSWORD: "q"
+
+  hub:
+    image: selenium/hub:3.14
+    ports:
+    - "4444:4444"
+  chrome:
+    image: selenium/node-chrome:3.14
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
