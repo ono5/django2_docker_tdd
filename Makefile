@@ -14,7 +14,7 @@ ft:
 	docker-compose run --rm app pytest ${f1} ${f2} functional_tests.py
 
 ut:
-	docker-compose run --rm app pytest -v -s ${filename}
+	docker-compose run --rm app pytest -v -s -l ${filename}
 
 clean:
 	docker-compose down -v

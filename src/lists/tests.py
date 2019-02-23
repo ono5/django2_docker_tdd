@@ -1,6 +1,7 @@
 from django.urls import resolve
 from django.test import TestCase
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from lists.views import home_page
 
@@ -14,6 +15,15 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         response = home_page(request)
         html = response.content.decode('utf8')
-        assert html.startswith('<html>')
-        assert '<title>To-Do lists</title>' in html
-        assert html.endswith('</html>')
+        expected_html = render_to_string('home.html')
+        assert html == expected_html
+
+    def test_user_home_template(self):
+        response = self.client.get('/')
+        # template_list = []
+        # template_list += [template.name for template in response.templates]
+        #
+        # assert 'home.html' in template_list
+
+        self.assertTemplateUsed(response, 'home.html')
+
