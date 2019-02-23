@@ -20,9 +20,10 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASS'),
         'PORT': os.environ.get('DB_PORT', '5432')
     },
-    'OPTIONS': {
-      'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-    }
+    # Remove the following option https://stackoverflow.com/questions/15839989/django-south-keyerror-engine
+    # 'OPTIONS': {
+    #   'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+    # }
 }
 
 # # Database settings

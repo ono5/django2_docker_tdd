@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import unittest
 
+
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
@@ -15,5 +16,6 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         self.browser.get('http://app:8000')
-
-        assert 'Django' in self.browser.title, "Browser title was " + self.browser.title
+        # self.browser.get_screenshot_as_file('test.png')
+        
+        assert 'To-Do' in self.browser.title, "Browser title was " + self.browser.title

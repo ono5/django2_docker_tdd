@@ -11,7 +11,10 @@ release:
 	docker-compose up
 
 ft:
-	docker-compose run --rm app pytest -v functional_tests.py
+	docker-compose run --rm app pytest ${f1} ${f2} functional_tests.py
+
+ut:
+	docker-compose run --rm app pytest ${filename}
 
 clean:
 	docker-compose down -v
