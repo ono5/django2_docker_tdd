@@ -11,13 +11,6 @@ class HomePageTest(TestCase):
         found = resolve('/')
         assert found.func == home_page
 
-    def test_home_page_returns_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)
-        html = response.content.decode('utf8')
-        expected_html = render_to_string('home.html')
-        assert html == expected_html
-
     def test_user_home_template(self):
         response = self.client.get('/')
         # template_list = []
@@ -27,3 +20,7 @@ class HomePageTest(TestCase):
 
         self.assertTemplateUsed(response, 'home.html')
 
+    def test_can_save_a_POST_request(self):
+        response = self.client.post('/', data={'item_text': 'A new list item'})
+        assert 'A new list item' in response.content.decode()
+        self.assertTemplateUsed(response, 'home.html')
