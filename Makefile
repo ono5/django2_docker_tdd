@@ -16,6 +16,9 @@ ft:
 ut:
 	docker-compose run --rm app pytest -v -s -l ${filename}
 
+mk:
+	docker-compose run --rm app python3 manage.py makemigrations
+
 clean:
 	docker-compose down -v
 	docker images -q -f dangling=true -f label=application=todobackend | xargs -I ARGS docker rmi -f --no-prune ARGS
