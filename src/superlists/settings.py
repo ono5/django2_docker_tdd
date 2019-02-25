@@ -135,3 +135,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '/public/static')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/public/media')
+
+AUTH_USER_MODEL = 'core.User'
