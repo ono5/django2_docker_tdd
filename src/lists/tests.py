@@ -29,8 +29,8 @@ class HomePageTest(TestCase):
         new_item = Item.objects.first()
         assert new_item.text == 'A new list item'
 
-        assert 'A new list item' in response.content.decode()
-        self.assertTemplateUsed(response, 'home.html')
+        assert response.status_code == 302
+        assert response['location'] == '/'
 
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')

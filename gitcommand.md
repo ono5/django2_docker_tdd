@@ -158,4 +158,36 @@ git merge origin/master
 master ブランチに feature ブランチの内容を取り込みたい場合は、master ブランチで、
 git merge feature とうつ。
 
+# ブランチを使用した開発の流れ
 
+* master ブランチ
+  * リリース用のブランチとして作成
+* 開発
+  * トピックブランチを作成
+  
+# プルリクエスト
+自分の変更したコードをリポジトリに取り込んでもらえるよう依頼する機能。
+
+1. master ブランチを最新に更新
+2. ブランチを作成
+3. ファイルを変更
+4. 変更をコミット
+5. GitHubへプッシュ
+6. プルリクエストを送る
+7. コードレビュー
+8. プルリクエストをマージ
+9. ブランチを削除　
+
+# ローカルレポジトリを綺麗にする
+
+1. git branch -D master
+2. git fetch
+3. git branch master origin/master
+4. git merge origin/master
+5. git status
+6. git add .
+7. git commit
+8. git push origin pull_request
+9. git checkout master
+10. git pull origin master
+11. git branch -d pull_request
