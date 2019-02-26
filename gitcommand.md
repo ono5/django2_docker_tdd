@@ -115,5 +115,47 @@ git pull を行うと、現在、自分のいるブランチに統合されて�
 
 git pull を行うときは、master ブランチにいる場合のみ、など運用ルールが必要。
 
+# ブランチの新規作成
+
+```bash
+git branch <branch name>
+git branch feature
+```
+
+# ブランチの一覧表示
+
+```bash
+git branch
+
+git branch -a
+
+
+git log --oneline --decorate
+7c065ba (HEAD -> feature, origin/master, master) Update home.html
+```
+
+# ブランチの切り替え
+
+```bash
+git checkout <branch name>
+git checkout feature
+
+# ブランチを新規作成して、切り替える
+git checkout -b <branch name>
+
+# push
+git push origin feature
+```
+
+# 変更履歴をマージ
+
+```bash
+git merge <branch name>
+git merge <remote name/branch name>
+git merge origin/master
+```
+
+master ブランチに feature ブランチの内容を取り込みたい場合は、master ブランチで、
+git merge feature とうつ。
 
 

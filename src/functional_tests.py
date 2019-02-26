@@ -6,7 +6,6 @@ import unittest
 
 
 class NewVisitorTest(unittest.TestCase):
-
     def setUp(self):
         self.browser = webdriver.Remote(
             command_executor='http://hub:4444/wd/hub',

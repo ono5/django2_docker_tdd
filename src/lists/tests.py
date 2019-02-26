@@ -6,7 +6,9 @@ from lists.models import Item
 
 import pytest
 
+
 class HomePageTest(TestCase):
+
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve('/')
         assert found.func == home_page
@@ -22,8 +24,17 @@ class HomePageTest(TestCase):
 
     def test_can_save_a_POST_request(self):
         response = self.client.post('/', data={'item_text': 'A new list item'})
+
+        assert Item.objects.count() == 1
+        new_item = Item.objects.first()
+        assert new_item.text == 'A new list item'
+
         assert 'A new list item' in response.content.decode()
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_only_saves_items_when_necessary(self):
+        self.client.get('/')
+        assert Item.objects.count() == 0
 
 
 class ItemModelTest():
