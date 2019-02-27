@@ -10,11 +10,14 @@ release:
 	docker-compose run app python3 manage.py collectstatic --no-input
 	docker-compose up
 
+all_tests:
+	docker-compose run --rm app pytest
+
 ft:
-	docker-compose run --rm app pytest ${f1} ${f2} functional_tests/tests.py
+	docker-compose run --rm app pytest -v -s -l functional_tests/tests.py
 
 ut:
-	docker-compose run --rm app pytest -v -s -l ${filename}
+	docker-compose run --rm app pytest -v -s -l ${dirname}
 
 mk:
 	docker-compose run --rm app python3 manage.py makemigrations

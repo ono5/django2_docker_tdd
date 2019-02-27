@@ -1,10 +1,13 @@
+import socket
+import time
+
 from django.test import LiveServerTestCase
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
-import time
-import socket
-import os
+
+MAX_WAIT = 10
 
 
 class NewVisitorTest(LiveServerTestCase):
@@ -22,6 +25,19 @@ class NewVisitorTest(LiveServerTestCase):
             command_executor='http://hub:4444/wd/hub',
             desired_capabilities=DesiredCapabilities.CHROME,
         )
+
+    def wait_for_row_in_list_table(self, row_text):
+        start_time = time.time()
+        while True:
+            try:
+                table = self.browser.find_element_by_id('id_list_table')
+                rows = table.find_elements_by_tag_name('tr')
+                assert row_text in [row.text for row in rows]
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
 
     def tearDown(self):
         self. browser.quit()
@@ -41,7 +57,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
         self.browser.get_screenshot_as_file('test.png')
 
         table = self.browser.find_element_by_id('id_list_table')
@@ -49,22 +65,19 @@ class NewVisitorTest(LiveServerTestCase):
 
         rows = table.find_elements_by_tag_name('tr')
 
-        # self.assertTrue(
-        #     any(row.text == '1: Buy peacock feathers' for row in rows),
-        #     f"New to-do item did not appear in table. Contents were:\n{table.text}"
-        # )
         assert any(row.text == '1: Buy peacock feathers' for row in rows), \
             f"New to-do item did not appear in table. Contents were:\n{table.text}"
 
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
 
-        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
-        self.assertIn('2: Use peacock feathers to make a fly', [row.text for row in rows])
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
+        self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
         self.fail('Finish the test!')
+
+
