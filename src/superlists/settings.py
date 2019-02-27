@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'core',
     'lists.apps.ListsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -136,4 +135,3 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '/public/static')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/public/media')
 
-AUTH_USER_MODEL = 'core.User'

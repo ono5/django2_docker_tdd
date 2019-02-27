@@ -17,7 +17,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         self.browser.get('http://app:8000')
-        # self.browser.get_screenshot_as_file('test.png')
+        self.browser.get_screenshot_as_file('test.png')
 
         header_text = self.browser.find_element_by_tag_name('h1').text
         assert 'To-Do' in header_text

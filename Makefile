@@ -18,6 +18,7 @@ ut:
 
 mk:
 	docker-compose run --rm app python3 manage.py makemigrations
+	docker-compose run --rm app python3 manage.py migration ${app_name}
 
 clean:
 	docker-compose down -v
