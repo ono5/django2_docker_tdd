@@ -11,7 +11,7 @@ release:
 	docker-compose up
 
 ft:
-	docker-compose run --rm app pytest ${f1} ${f2} functional_tests.py
+	docker-compose run --rm app pytest ${f1} ${f2} functional_tests/tests.py
 
 ut:
 	docker-compose run --rm app pytest -v -s -l ${filename}
@@ -23,4 +23,9 @@ mk:
 clean:
 	docker-compose down -v
 	docker images -q -f dangling=true -f label=application=todobackend | xargs -I ARGS docker rmi -f --no-prune ARGS
+
+
+flash:
+	docker-compose run --rm app python3 manage.py flush --database=default --noinput
+	docker-compose run --rm app python3 manage.py createsuperuser
 

@@ -1,11 +1,22 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
+import socket
+import os
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
+    # live_server_url = 'http://app:8000'
+
+    # https://stackoverflow.com/questions/44240139/run-liveservertestcase-from-docker-selenium-with-django-1-11
+    @classmethod
+    def setUpClass(cls):
+        cls.host = socket.gethostbyname(socket.gethostname())
+        print(cls.host)
+        super(NewVisitorTest, cls).setUpClass()
+
     def setUp(self):
         self.browser = webdriver.Remote(
             command_executor='http://hub:4444/wd/hub',
@@ -16,7 +27,7 @@ class NewVisitorTest(unittest.TestCase):
         self. browser.quit()
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        self.browser.get('http://app:8000')
+        self.browser.get(self.live_server_url)
         self.browser.get_screenshot_as_file('test.png')
 
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -53,7 +64,7 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
 
-        self.assertIn('1: Buy peacock teathers', [row.text for row in rows])
+        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
         self.assertIn('2: Use peacock feathers to make a fly', [row.text for row in rows])
 
         self.fail('Finish the test!')
