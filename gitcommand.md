@@ -221,3 +221,20 @@ git merge feature とうつ。
 git rebase <branch name>
 ```
 
+GitHub にプッシュしたコミットは、リベースしてはならない。
+
+git push -f は、絶対に NG
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -17,7 +17,7 @@ ft:
 	docker-compose run --rm app pytest -v -s -l functional_tests/tests.py
 
 ut:
-	docker-compose run --rm app pytest -v -s -l ${dirname}
+	docker-compose run --rm app pytest -v -s -l ${dir}
 
 mk:
 	docker-compose run --rm app python3 manage.py makemigrations
