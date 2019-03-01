@@ -15,4 +15,5 @@ response の content の中に form から送った情報が入る。
 2. サードパーティに関連するもの
 3. ローカルなアプリケーション/ライブラリに特有のもの
 
-
+# Nginx Settings
+[Ref](https://github.com/Gpzim98/django-apache-nginx-uwsgi-vps-ubuntu)

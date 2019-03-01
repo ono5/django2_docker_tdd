@@ -45,12 +45,6 @@ services:
     expose:
       - "8001"
     command: uwsgi --ini /app/superlists/django.ini
-#      - uwsgi
-#      - --http=0.0.0.0:8000
-#      - --module=superlists.wsgi
-#      - --master
-#      # public volume から静的ファイルをチェック
-#      - --check-static=/public
     links:
       - hub
   # docker-compose up migrate

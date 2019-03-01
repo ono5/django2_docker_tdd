@@ -3,3 +3,4 @@ env/
 __pycache__
 *.pyc
 nginx/log/
+src/superlists/uwsgi.log
