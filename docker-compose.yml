@@ -40,15 +40,17 @@ services:
     volumes:
       - public:/public
       - ./src:/app
-    ports:
-      - 8000:8000
-    command:
-      - uwsgi
-      - --http=0.0.0.0:8000
-      - --module=superlists.wsgi
-      - --master
-      # public volume から静的ファイルをチェック
-      - --check-static=/public
+#    ports:
+#      - 8000:8000
+    expose:
+      - "8001"
+    command: uwsgi --ini /app/superlists/django.ini
+#      - uwsgi
+#      - --http=0.0.0.0:8000
+#      - --module=superlists.wsgi
+#      - --master
+#      # public volume から静的ファイルをチェック
+#      - --check-static=/public
     links:
       - hub
   # docker-compose up migrate
@@ -98,3 +100,15 @@ services:
       - hub
     environment:
       - HUB_HOST=hub
+
+  nginx:
+    image: nginx:1.15.9-alpine
+    ports:
+      - "8000:8000"
+    volumes:
+    - public:/public
+    - ./nginx/conf:/etc/nginx/conf.d
+    - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+    - ./nginx/log:/var/log/nginx
+    depends_on:
+      - app
