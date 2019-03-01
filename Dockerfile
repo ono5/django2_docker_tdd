@@ -17,7 +17,7 @@ RUN apk add --no-cache bash git
 RUN apk add --no-cache gcc python3-dev libffi-dev musl-dev linux-headers mariadb-dev postgresql-dev
 
 # 事前コンパイルおよび事前フォーマットを行うため wheel を導入
-RUN pip3 install wheel
+RUN pip3 install wheel && pip3 install --upgrade pip
 
 # Copy requirements
 COPY /src/requirements* /build/
