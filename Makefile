@@ -8,7 +8,7 @@ test:
 release:
 	docker-compose up --abort-on-container-exit migrate
 	docker-compose run app python3 manage.py collectstatic --no-input
-	docker-compose up
+	docker-compose up ${option}
 
 all_tests:
 	docker-compose run --rm app pytest

@@ -85,15 +85,30 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "q"
 
   hub:
-    image: selenium/hub:3.14
+#    image: selenium/hub:3.14
+    image: dosel/zalenium
     ports:
-    - "4444:4444"
-  chrome:
-    image: selenium/node-chrome:3.14
-    depends_on:
-      - hub
-    environment:
-      - HUB_HOST=hub
+      - "4444:4444"
+    tty: true
+    volumes:
+      - /tmp/videos:/home/seluser/videos
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      start --desiredContainers 2
+            --maxDockerSeleniumContainers 8
+            --screenWidth 800 --screenHeight 600
+            --timeZone "Europe/Berlin"
+            --videoRecordingEnabled true
+            --sauceLabsEnabled false
+            --browserStackEnabled false
+            --testingBotEnabled false
+            --startTunnel false
+#  chrome:
+#    image: selenium/node-chrome:3.14
+#    depends_on:
+#      - hub
+#    environment:
+#      - HUB_HOST=hub
 
   nginx:
     image: nginx:1.15.9-alpine
