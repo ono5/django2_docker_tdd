@@ -106,3 +106,6 @@ services:
     - ./nginx/log:/var/log/nginx
     depends_on:
       - app
+
+  redis:
+    image: redis:3.0

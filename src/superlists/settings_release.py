@@ -41,5 +41,19 @@ DATABASES = {
 #     }
 # }
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
+    }
+}
+
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '/public/static')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/public/media')
