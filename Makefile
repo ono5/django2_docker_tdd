@@ -14,7 +14,7 @@ all_tests:
 	docker-compose run --rm app pytest
 
 ft:
-	docker-compose run --rm app pytest -v -s -l --tb=short functional_tests/tests.py
+	docker-compose run --rm app pytest -v -s -l --tb=short functional_tests/${filename}
 
 ut:
 	docker-compose run --rm app pytest -v -s -l --tb=short ${dir}
