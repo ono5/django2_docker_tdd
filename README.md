@@ -40,7 +40,9 @@ wget -O bootstrap.zip https://github.com/twbs/bootstrap/releases/download/v3.3.4
 unzip bootstrap.zip 
 mkdir src/lists/static
 mv bootstrap-3.3.4-dist src/lists/bootstrap
-
-
 ```
+
+# Static Files in Django
+static file の取り扱いについて。
+
 
