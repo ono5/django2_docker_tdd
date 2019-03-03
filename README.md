@@ -32,3 +32,15 @@ http://localhost:4444/grid/admin/live
 
 [ref1](https://github.com/zalando/zalenium/blob/master/docs/docker/docker-compose.yaml)  
 [ref2](https://opensource.zalando.com/zalenium/)
+
+# Bootstrap
+
+```bash
+wget -O bootstrap.zip https://github.com/twbs/bootstrap/releases/download/v3.3.4/bootstrap-3.3.4-dist.zip
+unzip bootstrap.zip 
+mkdir src/lists/static
+mv bootstrap-3.3.4-dist src/lists/bootstrap
+
+
+```
+
