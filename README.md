@@ -26,8 +26,9 @@ response の content の中に form から送った情報が入る。
 make release option="--scale chrome=2"
 ```
 
-# zalenium
+# zalenium  
+
 http://localhost:4444/grid/admin/live
 
-[ref1](https://github.com/zalando/zalenium/blob/master/docs/docker/docker-compose.yaml)
+[ref1](https://github.com/zalando/zalenium/blob/master/docs/docker/docker-compose.yaml)  
 [ref2](https://opensource.zalando.com/zalenium/)
