@@ -1,5 +1,5 @@
 from selenium.webdriver.common.keys import Keys
-import pytest
+
 
 from .base import FunctionalTest
 
