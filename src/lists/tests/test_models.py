@@ -46,7 +46,7 @@ class ListAndItemModelsTest(TestCase):
             item.full_clean()
 
     def test_validatoin_errors_are_sent_back_to_home_page_template(self):
-        response = self.client.post('/lists/new', data={'item_text': ''})
+        response = self.client.post('/lists/new', data={'text': ''})
         assert response.status_code == 200
         self.assertTemplateUsed(response, 'home.html')
         expected_error = escape("You can't have an empty list item")
