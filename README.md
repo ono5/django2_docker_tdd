@@ -84,4 +84,9 @@ To output context text, you can use the below function.
 print(response.content.decode())
 ```
 
+# Django Form
+
+* They can process user input and validate it for errors.
+* They can be used in templates to render HTML input elements, and error messages too.
+* And, as we'll see later, some of them can even save data to the database for you.
 
