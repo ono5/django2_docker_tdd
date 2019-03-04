@@ -52,3 +52,7 @@ class ListAndItemModelsTest(TestCase):
         expected_error = escape("You can't have an empty list item")
 
         self.assertContains(response, expected_error)
+
+    def test_get_absolute_url(self):
+        list_ = List.objects.create()
+        assert list_.get_absolute_url() == f'/lists/{list_.id}/'

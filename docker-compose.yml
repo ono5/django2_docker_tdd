@@ -94,7 +94,7 @@ services:
       - /tmp/videos:/home/seluser/videos
       - /var/run/docker.sock:/var/run/docker.sock
     command: >
-      start --desiredContainers 2
+      start --desiredContainers 4
             --maxDockerSeleniumContainers 8
             --screenWidth 800 --screenHeight 600
             --timeZone "Europe/Berlin"

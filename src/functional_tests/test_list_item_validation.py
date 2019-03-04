@@ -31,6 +31,7 @@ class ItemValidationTest(FunctionalTest):
             self.browser.find_element_by_css_selector('.has-error').text,
             "You can't have an empty list item"
         ))
+        self.browser.get_screenshot_as_file('test3.png')
 
         # And she can correct it by filling some text in
         self.browser.find_element_by_id('id_new_item').send_keys('Make tea')
