@@ -144,4 +144,8 @@ Take the following steps
 
 The CSRF token will be included in all AJAX requests that use unsafe HTTP methods, such as POST or PUT.
 
+# Django Form Error Message
+1. form.errors contains a list of all the errors for the form.
+2. form.text.errors is a list of just the errors for the text field.
+
 
