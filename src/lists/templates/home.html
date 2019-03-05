@@ -3,3 +3,18 @@
 {% block header_text %}Start a new To-Do list{% endblock %}
 
 {% block form_action %}{%url 'lists:new_list' %}{% endblock %}
+
+{% block domready %}
+    $('a.like').click(function(e) {
+        e.preventDefault();
+        $.post('{% url "lists:like" %}',
+        {
+            id: $(this).data('id'),
+            action: $(this).data('action')
+        },
+        function(data) {
+            console.log(data);
+        }
+     )
+    })
+{% endblock %}

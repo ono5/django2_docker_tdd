@@ -90,3 +90,58 @@ print(response.content.decode())
 * They can be used in templates to render HTML input elements, and error messages too.
 * And, as we'll see later, some of them can even save data to the database for you.
 
+# Cross-Site Request Forgery in AJAX requests
+With the CSRF protection active, Django checks for a CSRF token in all POST requests.
+It is a bit inconvenient for AJAX requests to pass the CSRF toekn as a POST data in with every post reqeust.
+
+Therefore, Django allows you to set a custom X-CSRFToken header in your AJAX requests with the value
+of the CSRF token.
+
+This allow you to set up jQuery or any other jQuery or any other JavaScript library to automatically 
+set the X-CSRFToken header in every request.
+
+Take the following steps
+
+1. Retrieve the CSRF token from the csrftoken cookie, which is set if CSRF protection is active
+2. Send the token in the AJAX request using the X-CSRFToken header
+
+[Ref](https://docs.djangoproject.com/ja/2.1/ref/csrf/#ajax)
+
+```bash
+# 1
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+    # 2
+    var csrftoken = Cookies.get('csrftoken');
+    # 3
+    function csrfSafeMethod(method) {
+        // these Http methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    # 4
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+</script>
+```
+
+1. JS Cookie is a lightweight JavaScript for handling cookies.
+[Ref](https://github.com/js-cookie/js-cookie)
+
+2. We read the value of the csrftoken cookie iwth Cookies.get().
+
+3. We define the csrfSafeMethod() function to check whether an HTTP method is safe.
+   Safe methods don't require CSRF protection - these are GET, HEAD, OPTIONS, and TRACE.
+   
+4. We set up jQuery Ajax requests using $.ajaxSetup(). Before each AJAX request is performed,
+   We check whether the request method is safe and the current request is not cross-domain.
+   If the request is unsafe, we set the X-CSRFToken header with the value obtained from the cookie.
+   This setup will apply to all AJAX requests peforemed with jQuery.
+
+The CSRF token will be included in all AJAX requests that use unsafe HTTP methods, such as POST or PUT.
+
+

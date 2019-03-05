@@ -4,6 +4,29 @@
         <meta http-equiv="X-UA-Compatible" content=""IE="edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>To-Do lists</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script>
+            var csrftoken = Cookies.get('csrftoken');
+            function csrfSafeMethod(method) {
+                // these Http methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+        </script>
+        <script>
+            <!-- Takes a handler that is executed when the DOM hierarchy has been fully constructed. -->
+            $(document).ready(function(){
+                {% block domready %}
+                {% endblock %}
+            });
+        </script>
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/base.css">
     </head>
@@ -30,6 +53,8 @@
                     {% endblock %}
                 </div>
             </div>
+
+            <a href="#" class="text-primary bg-success like">like</a>
         </div>
     </body>
 </html>

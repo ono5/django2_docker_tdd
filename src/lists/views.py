@@ -1,11 +1,18 @@
-from django.shortcuts import render, redirect
+import logging
+
+from django.shortcuts import render, redirect, HttpResponse
 from django.core.exceptions import ValidationError
 
 from lists.forms import ItemForm
 from lists.models import Item, List
+from common.decorators import ajax_required
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 def home_page(request):
+    logger.debug('----Start----')
     return render(request, 'home.html', {'form': ItemForm()})
 
 
@@ -34,3 +41,8 @@ def new_list(request):
         error = "You can't have an empty list item"
         return render(request, 'home.html', {"error": error})
     return redirect(list_)
+
+
+@ajax_required
+def like(reqiest):
+    return HttpResponse('TEST')

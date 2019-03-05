@@ -5,3 +5,4 @@ __pycache__
 nginx/log/
 src/superlists/uwsgi.log
 test*.png
+src/debug.log

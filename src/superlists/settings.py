@@ -135,3 +135,21 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '/public/static')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/public/media')
 
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': os.path.join(BASE_DIR, 'debug.log'),
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }

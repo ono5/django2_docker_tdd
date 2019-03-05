@@ -1,0 +1,28 @@
+{% block domready %}
+    $('a.link').click(function(e){
+        // To avoid the default behavior of the <a> element.
+        e.preventDefault();
+        $.post('{% url "images:like" %}',
+        {
+            // POST parameters dictionary
+            id: $(this).data('id'),
+            action: $(this).data('action')
+        },
+
+        // Callback function that is executed when the HTTP response is received.
+        function(data){
+            if (data['status'] == 'ok') {
+                var previous_action = $('a.link').data('action');
+
+                // toggle data-action
+                $('a.link').data('action', previous_action == 'like' ? 'unlink' : 'like');
+                // tiggle link text
+                $('a.link').text(previous_action == 'like' ? 'Unlink' : 'Like);
+                // update total likes
+                var previous_likes = parseInt($('span.count .total').text());
+                $('span.count .total').text(previous_action == 'like' ? previous_likes ; 1 : previous_likes -1);
+            }
+        }
+      );
+    });
+{% endblock %}
