@@ -84,6 +84,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: "qes"
       PGADMIN_DEFAULT_PASSWORD: "q"
 
+  selenium:
+    image: elgalu/selenium
+
   hub:
 #    image: selenium/hub:3.14
     image: dosel/zalenium
@@ -124,3 +127,4 @@ services:
 
   redis:
     image: redis:3.0
+
